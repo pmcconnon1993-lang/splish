@@ -1,0 +1,239 @@
+{
+  "schema_version": 1,
+  "reviewed_date": "2026-10-20",
+  "scope": "Architecture-only research extension for Apple-native LLM acceleration; 13 selected methods; no personal hardware inventory.",
+  "coverage": "Bounded primary-source survey with method-level reading for highlighted semantics and source inspection for ReDrafter's MLX path. Not exhaustive or a ranking of current fastest methods.",
+  "performed": {
+    "primary_source_review": true,
+    "selected_source_inspection": true,
+    "installation": false,
+    "model_download": false,
+    "training": false,
+    "benchmarking": false
+  },
+  "source_policy": "Primary papers, author pages and author repositories. Abstract-level evidence is labeled; author measurements are distinct from reproduced measurements.",
+  "access_notes": [
+    "Web access verified paper and repository identities. Some GitHub web file/tree requests failed with cache misses; GitHub connector successfully retrieved selected ReDrafter MLX source files and blob identities.",
+    "Repository links without immutable commit references are mutable. The three ReDrafter Git blob hashes identify inspected file content; they are not repository commit hashes."
+  ],
+  "studies": [
+    {
+      "id": "redrafter",
+      "title": "Recurrent Drafter for Fast Speculative Decoding in Large Language Models",
+      "year": 2024,
+      "paper": "https://arxiv.org/abs/2403.09919v5",
+      "author_page": "https://machinelearning.apple.com/research/recurrent-drafter",
+      "repository": "https://github.com/apple-aiml-research/ml-recurrent-drafter",
+      "evidence": "Paper abstract, Apple overview, repository README, MLX experiment notes and selected MLX source functions inspected.",
+      "mechanism": "Distilled recurrent drafter conditioned on target hidden states; beam verification and prefix acceptance.",
+      "adaptation": "Train a compatible auxiliary drafter and implement feature, tokenizer, attention-mask and cache contracts.",
+      "apple_evidence": "Authors report MLX/Metal experiments; no experiment reproduced here. Older repository notes and paper maximum describe different conditions.",
+      "limits": [
+        "README warns non-greedy implementation may not preserve exact target distribution.",
+        "Inspected MLX verifier retains TODO for tree compression and position IDs; do not equate the full paper algorithm with this branch.",
+        "Repository default-branch files are mutable; Git blob identities below identify inspected content."
+      ],
+      "inspected_files": [
+        {
+          "path": "recurrent_drafting/mlx/recurrent_drafting.py",
+          "git_blob_sha": "62df7a3a2c93083e472186dc3da5000c07756f15",
+          "functions": [
+            "ReDrafterModel._generate",
+            "_verify_candidates",
+            "_greedy_choose_from_candidates",
+            "_choose_from_candidates",
+            "_update_kv_cache_and_input_ids"
+          ],
+          "url": "https://github.com/apple-aiml-research/ml-recurrent-drafter/blob/main/recurrent_drafting/mlx/recurrent_drafting.py"
+        },
+        {
+          "path": "recurrent_drafting/mlx/cmd/generate.py",
+          "git_blob_sha": "a11e1291ff82f05cb9197953600a415523a5c94b",
+          "url": "https://github.com/apple-aiml-research/ml-recurrent-drafter/blob/main/recurrent_drafting/mlx/cmd/generate.py"
+        },
+        {
+          "path": "recurrent_drafting/mlx/experiments/README.md",
+          "git_blob_sha": "4ed0e219f45775521ff56de079676f331c184215",
+          "url": "https://github.com/apple-aiml-research/ml-recurrent-drafter/blob/main/recurrent_drafting/mlx/experiments/README.md"
+        }
+      ]
+    },
+    {
+      "id": "eagle-3",
+      "title": "EAGLE-3: Scaling up Inference Acceleration of Large Language Models via Training-Time Test",
+      "year": 2025,
+      "paper": "https://arxiv.org/abs/2503.01840v3",
+      "repository": "https://github.com/SafeAILab/EAGLE",
+      "evidence": "Primary abstract and author repository identity inspected; no implementation audit.",
+      "mechanism": "Direct token objective and multi-layer target-feature fusion improve learned draft proposals.",
+      "adaptation": "Target-specific draft training, feature access and efficient verification.",
+      "limits": [
+        "Published speedups are author measurements, not reproduced Apple results.",
+        "Training benefit does not establish latency benefit after backend integration."
+      ]
+    },
+    {
+      "id": "medusa",
+      "title": "Medusa: Simple LLM Inference Acceleration Framework with Multiple Decoding Heads",
+      "year": 2024,
+      "paper": "https://arxiv.org/html/2401.10774v3",
+      "repository": "https://github.com/FasterDecoding/Medusa",
+      "evidence": "Paper methods including section 2.3.1 and author repository identity inspected.",
+      "mechanism": "Future-token heads share a backbone; tree attention verifies candidate continuations.",
+      "adaptation": "Train heads alone or jointly with the backbone, then implement tree verification and state updates.",
+      "limits": [
+        "Typical acceptance is distinct from distribution-preserving rejection sampling.",
+        "Medusa-2 changes the target backbone; comparison against the original target needs quality evaluation."
+      ]
+    },
+    {
+      "id": "layerskip",
+      "title": "LayerSkip: Enabling Early Exit Inference and Self-Speculative Decoding",
+      "year": 2024,
+      "paper": "https://arxiv.org/html/2404.16710v4",
+      "repository": "https://github.com/facebookresearch/LayerSkip",
+      "evidence": "Paper training, self-speculation and experiment descriptions inspected; repository identity verified.",
+      "mechanism": "Training makes early exits useful; draft and verifier share layers, activations and KV state.",
+      "adaptation": "Adapted checkpoint plus a runtime that reuses early-layer work.",
+      "limits": [
+        "Reported paper inference experiments use greedy decoding.",
+        "Early exit without full verification can change accuracy.",
+        "No Apple implementation or performance result verified."
+      ]
+    },
+    {
+      "id": "lookahead",
+      "title": "Break the Sequential Dependency of LLM Inference Using Lookahead Decoding",
+      "year": 2024,
+      "paper": "https://arxiv.org/html/2402.02057v1",
+      "repository": "https://github.com/hao-ai-lab/LookaheadDecoding",
+      "evidence": "Primary paper Jacobi, n-gram pool and verification sections inspected; author repository identity verified.",
+      "mechanism": "Generate candidate n-grams through parallel updates and verify continuations without an auxiliary trained model.",
+      "adaptation": "Candidate pool, attention masks and correct target verification; no model training required.",
+      "limits": [
+        "Extra arithmetic must be economical for the chosen backend and concurrency.",
+        "Paper exactness claim is not runtime validation of a future port."
+      ]
+    },
+    {
+      "id": "mirror",
+      "title": "Mirror Speculative Decoding: Breaking the Serial Barrier in LLM Inference",
+      "year": 2025,
+      "paper": "https://arxiv.org/html/2510.13161",
+      "author_page": "https://machinelearning.apple.com/research/mirror",
+      "repository": null,
+      "evidence": "Apple overview, paper scheduling description and hardware appendix inspected.",
+      "mechanism": "Overlap early-signal draft rollouts with target suffix execution across heterogeneous accelerators.",
+      "adaptation": "Trained compatible components and asynchronous scheduling with correct cross-processor state and acceptance.",
+      "limits": [
+        "No author implementation repository was established in this bounded review.",
+        "Hardware appendix describes eight M2 Ultra systems linked using Thunderbolt 5. Apple's stock 2023 Mac Studio specification lists Thunderbolt 4. The source does not resolve this setup ambiguity; no inference of intent is made.",
+        "Reported speedups are not used as validated Apple evidence."
+      ],
+      "hardware_crosscheck": "https://support.apple.com/en-ie/111835"
+    },
+    {
+      "id": "awq",
+      "title": "AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration",
+      "year": 2023,
+      "paper": "https://arxiv.org/abs/2306.00978v6",
+      "repository": "https://github.com/mit-han-lab/llm-awq",
+      "evidence": "Primary abstract and author repository identity inspected; prior co-design chapter covers MLX-LM route.",
+      "mechanism": "Activation statistics select channel scaling that protects low-bit weight quality.",
+      "adaptation": "Calibration and backend-compatible quantized packing/kernels; original method does not require backpropagation.",
+      "limits": [
+        "Original publication 2023; inspected arXiv revision is v6 from 2026.",
+        "TinyChat speedups cannot be assigned to an arbitrary Apple conversion."
+      ]
+    },
+    {
+      "id": "quarot",
+      "title": "QuaRot: Outlier-Free 4-Bit Inference in Rotated LLMs",
+      "year": 2024,
+      "paper": "https://arxiv.org/abs/2404.00456v2",
+      "repository": "https://github.com/spcl/QuaRot",
+      "evidence": "Primary paper abstract and author repository identity inspected; no kernel implementation audit.",
+      "mechanism": "Equivalent rotations reduce outliers before weight, activation and KV quantization.",
+      "adaptation": "Compatible transformed graph, quantization and efficient runtime rotation/low-bit operators.",
+      "limits": [
+        "Equivalent unquantized transformation does not make the later quantization exact.",
+        "No Apple runtime compatibility or speedup verified."
+      ]
+    },
+    {
+      "id": "kivi",
+      "title": "KIVI: A Tuning-Free Asymmetric 2bit Quantization for KV Cache",
+      "year": 2024,
+      "paper": "https://arxiv.org/abs/2402.02750v2",
+      "repository": "https://github.com/jy-yuan/KIVI",
+      "evidence": "Primary abstract and author README mechanism inspected.",
+      "mechanism": "Different quantization grouping for keys and values reduces persistent attention state.",
+      "adaptation": "Packed cache layout, metadata, incremental updates and efficient attention kernels; no model fine-tuning.",
+      "limits": [
+        "Cache quantization is approximate and requires task-quality checks.",
+        "Reported throughput benefits include increased feasible batch size.",
+        "No Apple benchmark reproduced."
+      ]
+    },
+    {
+      "id": "llm-in-a-flash",
+      "title": "LLM in a flash: Efficient Large Language Model Inference with Limited Memory",
+      "year": 2023,
+      "paper": "https://arxiv.org/html/2312.11514v3",
+      "repository": null,
+      "evidence": "Primary paper predictor, windowing, bundling and evaluation sections inspected.",
+      "mechanism": "Predict active neurons, cache recent required rows and coalesce flash reads.",
+      "adaptation": "Suitable sparse/adapted model, trained activation predictors and storage/cache implementation.",
+      "limits": [
+        "No author implementation repository established in this bounded review.",
+        "Prediction errors can change model quality.",
+        "Naive storage-loading baseline is not equivalent to fully resident inference."
+      ]
+    },
+    {
+      "id": "flashattention-2",
+      "title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+      "year": 2023,
+      "paper": "https://arxiv.org/abs/2307.08691v1",
+      "repository": "https://github.com/Dao-AILab/flash-attention",
+      "evidence": "Primary abstract and author repository identity inspected.",
+      "mechanism": "Reduce non-matrix work and communication while improving attention work partitioning and occupancy.",
+      "adaptation": "Metal-specific threadgroup, SIMD and tile implementation; no checkpoint retraining.",
+      "limits": [
+        "CUDA warp and A100 utilization choices are not Apple tuning prescriptions.",
+        "Exact attention semantics do not imply bitwise identical floating-point outputs.",
+        "This review does not audit the evolving repository's later FlashAttention versions."
+      ]
+    },
+    {
+      "id": "pagedattention",
+      "title": "Efficient Memory Management for Large Language Model Serving with PagedAttention",
+      "year": 2023,
+      "paper": "https://arxiv.org/abs/2309.06180v1",
+      "repository": "https://github.com/vllm-project/vllm",
+      "evidence": "Primary abstract and author repository identity inspected.",
+      "mechanism": "Logical-to-physical KV block mapping reduces fragmentation and supports sharing.",
+      "adaptation": "Application allocator, sequence mappings, ownership and paged attention kernels; no training.",
+      "limits": [
+        "KV paging does not mean operating-system swap.",
+        "Serving throughput gain is not an equal isolated-request latency gain.",
+        "No claim that current vLLM features all exist in an Apple engine."
+      ]
+    },
+    {
+      "id": "sglang",
+      "title": "SGLang: Efficient Execution of Structured Language Model Programs",
+      "year": 2023,
+      "paper": "https://arxiv.org/abs/2312.07104v2",
+      "repository": "https://github.com/sgl-project/sglang",
+      "evidence": "Primary abstract and author repository identity inspected.",
+      "mechanism": "Program-aware execution, RadixAttention state reuse and compressed state machines for structured generation.",
+      "adaptation": "Runtime/program interface, correct prefix-cache identity and constrained decoding integration; no training.",
+      "limits": [
+        "Benefit depends on workload repetition and constraints.",
+        "Constrained generation changes allowed continuations.",
+        "Evolving repository is not treated as a fully audited Apple backend."
+      ]
+    }
+  ]
+}

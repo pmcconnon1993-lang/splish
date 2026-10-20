@@ -1,0 +1,182 @@
+{
+  "review_date": "2026-10-19 America/Chicago",
+  "scope": "General mechanisms and model-family adaptation; no user setup, app/model execution or training",
+  "evidence_level": "static source and primary research; illustrative derivations and proposed experiments explicitly labeled",
+  "source_checkout": {
+    "repository": "https://github.com/incoai/splash",
+    "commit": "be3b083c5f413673d44e44881042e875e674e333",
+    "clean": true,
+    "files": [
+      {
+        "path": "dev/benchmarks/remaining-decode-optimizations.md",
+        "sha256": "8acb9982c13b7b0cd573cd34c459cef1ef902da99d62723909bb87517d7887ab",
+        "url": "https://github.com/incoai/splash/blob/be3b083c5f413673d44e44881042e875e674e333/dev/benchmarks/remaining-decode-optimizations.md"
+      },
+      {
+        "path": "runtime/metal/abi/PagedAttention.h",
+        "sha256": "a850826cc454469cf24e3f404cf242c44bfd8d24791c1782bb8c6de265653902",
+        "url": "https://github.com/incoai/splash/blob/be3b083c5f413673d44e44881042e875e674e333/runtime/metal/abi/PagedAttention.h"
+      },
+      {
+        "path": "runtime/metal/kernels/common/gguf_staged_tile.h",
+        "sha256": "b96fdfe5e1baa83a9fb770fcef7a55ec142629c560c92d51793f5d6d640a0577",
+        "url": "https://github.com/incoai/splash/blob/be3b083c5f413673d44e44881042e875e674e333/runtime/metal/kernels/common/gguf_staged_tile.h"
+      },
+      {
+        "path": "runtime/metal/kernels/decode/sampling.metal",
+        "sha256": "df164a2173f8afbb0666625279ccd9bfc663a619a5feb647a4314684a2b9f7b2",
+        "url": "https://github.com/incoai/splash/blob/be3b083c5f413673d44e44881042e875e674e333/runtime/metal/kernels/decode/sampling.metal"
+      },
+      {
+        "path": "runtime/metal/kernels/prefill/paged_attention.metal",
+        "sha256": "a4c80c79e96926b3bcaf102d9592eb0e9c96614828a3b3c3a6ebb2ae7f0c5982",
+        "url": "https://github.com/incoai/splash/blob/be3b083c5f413673d44e44881042e875e674e333/runtime/metal/kernels/prefill/paged_attention.metal"
+      },
+      {
+        "path": "runtime/model/DFlashDraft.cpp",
+        "sha256": "84f4b92fbafa2a93336917ea87e894e34e3e3ab0667f5d95968138f1e92eebb7",
+        "url": "https://github.com/incoai/splash/blob/be3b083c5f413673d44e44881042e875e674e333/runtime/model/DFlashDraft.cpp"
+      },
+      {
+        "path": "runtime/model/Model.hpp",
+        "sha256": "668676f3a22cdd23c24a5ea49d631a95ec5733e02538b07f299129b14b5fce8f",
+        "url": "https://github.com/incoai/splash/blob/be3b083c5f413673d44e44881042e875e674e333/runtime/model/Model.hpp"
+      },
+      {
+        "path": "runtime/model/ModelDescriptor.hpp",
+        "sha256": "cac940186c447ca6ce79d4b3de35f6f3e3fa237e681ed55486871c59e638f4ae",
+        "url": "https://github.com/incoai/splash/blob/be3b083c5f413673d44e44881042e875e674e333/runtime/model/ModelDescriptor.hpp"
+      },
+      {
+        "path": "runtime/model/ModelDescriptor.mm",
+        "sha256": "8d0d4cc289bcdb83694dbfcb5b844bf2e584b115c6804285ea1096a64d688dfb",
+        "url": "https://github.com/incoai/splash/blob/be3b083c5f413673d44e44881042e875e674e333/runtime/model/ModelDescriptor.mm"
+      },
+      {
+        "path": "runtime/model/QwenHybridLayout.hpp",
+        "sha256": "a65b6bd5841555e8904e757e7c754886109f8f26aa17ad1bf56ec718423decdc",
+        "url": "https://github.com/incoai/splash/blob/be3b083c5f413673d44e44881042e875e674e333/runtime/model/QwenHybridLayout.hpp"
+      },
+      {
+        "path": "runtime/model/QwenState.cpp",
+        "sha256": "05a5af35221a973a00bd485bd8d4e815b83a8f2901d0968b3baa02101430b432",
+        "url": "https://github.com/incoai/splash/blob/be3b083c5f413673d44e44881042e875e674e333/runtime/model/QwenState.cpp"
+      },
+      {
+        "path": "runtime/model/Runtime.cpp",
+        "sha256": "537accffa7f851e38e4635b7dde59b2e3191d5d9adb4307cb2181c93b726aa88",
+        "url": "https://github.com/incoai/splash/blob/be3b083c5f413673d44e44881042e875e674e333/runtime/model/Runtime.cpp"
+      },
+      {
+        "path": "runtime/model/WeightImages.cpp",
+        "sha256": "e3e7de7d91b070a0e2d8cac39ea0cff66fbf5274546641cebb6ce80ce7fda079",
+        "url": "https://github.com/incoai/splash/blob/be3b083c5f413673d44e44881042e875e674e333/runtime/model/WeightImages.cpp"
+      },
+      {
+        "path": "runtime/ops/LinearGguf.cpp",
+        "sha256": "0cc77ac4fa2070fdcbb38444e4b7cbcd6c074e6b036bc66954d121218681eaa7",
+        "url": "https://github.com/incoai/splash/blob/be3b083c5f413673d44e44881042e875e674e333/runtime/ops/LinearGguf.cpp"
+      }
+    ]
+  },
+  "research_sources": [
+    {
+      "id": "dflash-v2",
+      "title": "DFlash: Block Diffusion for Flash Speculative Decoding",
+      "url": "https://arxiv.org/html/2602.06036v2",
+      "version": "arXiv v2, 2026-05-28",
+      "type": "original research paper",
+      "reviewed_sections": [
+        "abstract",
+        "3.1 speed model",
+        "4.1 inference",
+        "4.2 training",
+        "5.5.4 training/inference block size"
+      ],
+      "scope": "DFlash original design, not DFlash2 or a benchmark of the inspected Splash revision"
+    },
+    {
+      "id": "dflash2-author-report",
+      "title": "DFlash 2: Keep Drafting Parallel",
+      "url": "https://inco.ai/blog/dflash2/",
+      "published": "2026-08-18",
+      "type": "author technical report",
+      "reviewed_sections": [
+        "candidate path selector",
+        "dynamic convolution",
+        "release/model links"
+      ],
+      "scope": "DFlash2 mechanism; not represented as a separate peer-reviewed paper"
+    },
+    {
+      "id": "speculative-sampling",
+      "title": "Fast Inference from Transformers via Speculative Decoding",
+      "url": "https://proceedings.mlr.press/v202/leviathan23a/leviathan23a.pdf",
+      "version": "ICML 2023",
+      "type": "original research paper",
+      "reviewed_sections": [
+        "2.1 overview",
+        "2.2 sampling transformations",
+        "2.3 rejection sampling",
+        "Algorithm 1"
+      ],
+      "scope": "Probability construction under its assumptions; no claim that static review proves implementation exactness"
+    },
+    {
+      "id": "flashattention",
+      "title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+      "url": "https://arxiv.org/abs/2205.14135",
+      "version": "arXiv v2, 2022-06-23",
+      "type": "original research paper",
+      "reviewed_sections": [
+        "abstract"
+      ],
+      "scope": "IO-aware tiling principle only; Splash kernel identity is established separately from source"
+    },
+    {
+      "id": "dflash-upstream-repo",
+      "title": "z-lab/dflash",
+      "url": "https://github.com/z-lab/dflash",
+      "type": "official source repository",
+      "reviewed_sections": [
+        "README",
+        "package tree overview"
+      ],
+      "revision_status": "live main view, not pinned or cloned",
+      "scope": "Discovery only; does not establish a validated training package"
+    },
+    {
+      "id": "released-dflash2-config",
+      "title": "Qwen3.8-27B-DFlash2 configuration",
+      "url": "https://huggingface.co/incoai/Qwen3.8-27B-DFlash2/raw/main/config.json",
+      "type": "author model configuration",
+      "revision_status": "live main view, unpinned",
+      "scope": "Corroboration of published architecture; report contracts grounded in pinned Splash source"
+    }
+  ],
+  "validation": {
+    "source_links_checked": 20,
+    "all_source_line_ranges_valid": true,
+    "reference_links_defined": true,
+    "source_tree_unmodified": true,
+    "illustrative_arithmetic": {
+      "cycle_ms": 34,
+      "yield_tokens": 5,
+      "ms_per_token": 6.8,
+      "speedup_against_18ms_token": 2.6470588235294117,
+      "break_even_tokens": 1.8888888888888888
+    },
+    "not_performed": [
+      "target build",
+      "inference benchmark",
+      "statistical sampler test",
+      "draft training",
+      "new model-family implementation"
+    ]
+  },
+  "limits": [
+    "Theory preserves a specified target distribution under assumptions, not bitwise outputs across arithmetic changes",
+    "No complete DFlash2 training pipeline was validated",
+    "New-family extension is a proposed engineering path, not an implemented feature"
+  ]
+}
