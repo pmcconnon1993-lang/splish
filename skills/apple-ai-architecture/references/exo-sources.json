@@ -1,0 +1,571 @@
+{
+  "schema": "apple-native-ai-study-sources/v1",
+  "study": "exo-distribution",
+  "retrieved_on": "2026-10-20",
+  "scope": "Architecture-only source/documentation study; no installation, weights, runtime or user machine inspection.",
+  "repository": {
+    "url": "https://github.com/exo-explore/exo",
+    "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+    "commit_date": "2026-10-13T20:11:46Z",
+    "tree": "12ca9cb6a28bead2f9097843c76e40e9bd7b52af",
+    "modifications": "",
+    "acquisition": "Inspected through official GitHub and an isolated source checkout."
+  },
+  "dependency_pins": {
+    "mlx_macos": "0e3ff3643b1c3719f78814b98e0d222afbad867c",
+    "mlx_lm_fork": "rltakashige/mlx-lm@6a3df6cd6b00a347ee40f12d97a182aaf86ea599"
+  },
+  "findings": [
+    {
+      "id": "exo-architecture",
+      "status": "static",
+      "claim": "MLX text runner; pipeline and model-specific tensor sharding; Ring and JACCL instances. No EXO Splash/oMLX execution integration found in inspected source/docs/manifest.",
+      "limits": "Not runtime verified. Bounded negative search, not a universal claim about unmerged branches."
+    },
+    {
+      "id": "exo-placement",
+      "status": "static",
+      "claim": "Smallest memory-fitting topology cycles, download/free-memory preferences and interface-category priority; measured-speed profiling TODO remains.",
+      "external_check": {
+        "url": "https://github.com/exo-explore/exo/pull/2297",
+        "title": "feat: place pipeline shards by measured bandwidth and latency",
+        "state": "open",
+        "merged": false,
+        "head_sha": "b1a12ef94e13f8d6a096d11afb59f295a5e6ce91"
+      }
+    },
+    {
+      "id": "exo-prefill",
+      "status": "static",
+      "claim": "Feature-flagged remote MLX prefill uses TCP; inspected generator finishes prefill before cache writes, client ingests after receipt. QuantizedKVCache/CacheList/DeepseekV4Cache rejected.",
+      "limits": "Not evidence of general automatic phase placement, overlapped compute/transfer or cross-runtime state interchange."
+    },
+    {
+      "id": "exo-qwen-chart",
+      "status": "documented",
+      "claim": "Pinned chart visually read: EXO one/two/four nodes 19.5/26.2/31.9 t/s, giving 1.3436/1.6359 scaling versus EXO single-node.",
+      "limits": "Historical M3 Ultra benchmark, frameworks and transports change together; no M5 inference."
+    },
+    {
+      "id": "exo-spark-blog",
+      "status": "documented",
+      "claim": "Official headline says 4x; table Llama-3.1-8B FP16 8192-input/32-output reports 6.42 s vs 2.32 s, 2.7672x overall.",
+      "limits": "Not reproduced here; blog automation/overlap description is not established by inspected main."
+    },
+    {
+      "id": "exo-bench",
+      "status": "static",
+      "claim": "Aggregate generation TPS uses max per-request generation TPS times concurrency.",
+      "limits": "For workload claims also compute sum of successful output tokens / observed batch wall time, with failures and latency distribution."
+    }
+  ],
+  "verification": {
+    "tree_clean": true,
+    "documentation_and_json_only": true,
+    "runtime_benchmarks_run": false,
+    "runtime_tests_run": false,
+    "exo_pinned_local_source_files_exist": true,
+    "exo_pinned_source_line_endpoints_valid": true
+  },
+  "sources": [
+    {
+      "id": "exo-source-01",
+      "url": "https://github.com/exo-explore/exo/commit/bc412e2230f395e652c23426a5eb88dfa515769b",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "documented"
+    },
+    {
+      "id": "exo-source-02",
+      "url": "https://github.com/ml-explore/mlx/commit/0e3ff3643b1c3719f78814b98e0d222afbad867c",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "documented"
+    },
+    {
+      "id": "exo-source-03",
+      "url": "https://github.com/rltakashige/mlx-lm/commit/6a3df6cd6b00a347ee40f12d97a182aaf86ea599",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "documented"
+    },
+    {
+      "id": "exo-source-04",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/pyproject.toml#L45-L113",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "pyproject.toml",
+      "sha256": "fafd987089987a77de7b002831a7557635f802f7d8b462dc8c30e0404c2a7168",
+      "lines": [
+        45,
+        113
+      ]
+    },
+    {
+      "id": "exo-source-05",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/uv.lock#L1429-L1558",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "uv.lock",
+      "sha256": "7f6768afefa3fbdee940e0b3157d62f9f0a17bf1688c210a88e1b861e6b2a161",
+      "lines": [
+        1429,
+        1558
+      ]
+    },
+    {
+      "id": "exo-source-06",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/rust/networking/src/discovery.rs#L20-L174",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "rust/networking/src/discovery.rs",
+      "sha256": "6965f72df5a1ef89ad6eed07187c68410c12025bf144548705ce996bccaedec3",
+      "lines": [
+        20,
+        174
+      ]
+    },
+    {
+      "id": "exo-source-07",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/rust/networking/src/lib.rs#L20-L100",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "rust/networking/src/lib.rs",
+      "sha256": "a1634b2c4729705ae1736334a9024e3cfc53d91562f01cf0ea435d13961e73b9",
+      "lines": [
+        20,
+        100
+      ]
+    },
+    {
+      "id": "exo-source-08",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/src/exo/main.py#L52-L196",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "src/exo/main.py",
+      "sha256": "8d76339cd41e002f8ff8faa766e0b196e158cc26b1c05772281ded1609dd6c26",
+      "lines": [
+        52,
+        196
+      ]
+    },
+    {
+      "id": "exo-source-09",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/src/exo/master/placement.py#L192-L419",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "src/exo/master/placement.py",
+      "sha256": "839e40b43dbbc1f01166dc4eeda3415c85038b62ddd09ee8d7b66b0353f2a50a",
+      "lines": [
+        192,
+        419
+      ]
+    },
+    {
+      "id": "exo-source-10",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/src/exo/master/placement_utils.py#L47-L125",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "src/exo/master/placement_utils.py",
+      "sha256": "b238de4e01016fa52f7e441f0817642b0fef1bc34b0ca42ee0eb5a94ffd48fba",
+      "lines": [
+        47,
+        125
+      ]
+    },
+    {
+      "id": "exo-source-11",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/src/exo/worker/engines/mlx/utils_mlx.py#L91-L147",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "src/exo/worker/engines/mlx/utils_mlx.py",
+      "sha256": "a42676c1fd18bd31ca943ebebfccbb77a4b0b0d49a12e3f447160ab8b2c092e8",
+      "lines": [
+        91,
+        147
+      ]
+    },
+    {
+      "id": "exo-source-12",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/src/exo/worker/engines/mlx/builder.py#L64-L117",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "src/exo/worker/engines/mlx/builder.py",
+      "sha256": "6b4d8fa75dc5a2d17134feb4519075fdc9cfe9da6e68e1db9bcca5c4a5d13222",
+      "lines": [
+        64,
+        117
+      ]
+    },
+    {
+      "id": "exo-source-13",
+      "url": "https://github.com/exo-explore/exo/pull/2297",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "documented"
+    },
+    {
+      "id": "exo-source-14",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/src/exo/master/placement_utils.py#L339-L378",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "src/exo/master/placement_utils.py",
+      "sha256": "b238de4e01016fa52f7e441f0817642b0fef1bc34b0ca42ee0eb5a94ffd48fba",
+      "lines": [
+        339,
+        378
+      ]
+    },
+    {
+      "id": "exo-source-15",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/src/exo/worker/runner/bootstrap.py#L89-L118",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "src/exo/worker/runner/bootstrap.py",
+      "sha256": "8d16630a130b4e5033746001309da59776f080b2277b2a262ee6c3f22e52a654",
+      "lines": [
+        89,
+        118
+      ]
+    },
+    {
+      "id": "exo-source-16",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/src/exo/master/placement.py#L68-L71",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "src/exo/master/placement.py",
+      "sha256": "839e40b43dbbc1f01166dc4eeda3415c85038b62ddd09ee8d7b66b0353f2a50a",
+      "lines": [
+        68,
+        71
+      ]
+    },
+    {
+      "id": "exo-source-17",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/src/exo/worker/engines/mlx/auto_parallel.py#L456-L603",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "src/exo/worker/engines/mlx/auto_parallel.py",
+      "sha256": "f854d7dbcfd79c03725ddb19c215d95884362fb40b00d96c75bcfae58683cce1",
+      "lines": [
+        456,
+        603
+      ]
+    },
+    {
+      "id": "exo-source-18",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/src/exo/master/placement.py#L233-L278",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "src/exo/master/placement.py",
+      "sha256": "839e40b43dbbc1f01166dc4eeda3415c85038b62ddd09ee8d7b66b0353f2a50a",
+      "lines": [
+        233,
+        278
+      ]
+    },
+    {
+      "id": "exo-source-19",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/src/exo/worker/engines/mlx/auto_parallel.py#L130-L209",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "src/exo/worker/engines/mlx/auto_parallel.py",
+      "sha256": "f854d7dbcfd79c03725ddb19c215d95884362fb40b00d96c75bcfae58683cce1",
+      "lines": [
+        130,
+        209
+      ]
+    },
+    {
+      "id": "exo-source-20",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/src/exo/worker/engines/mlx/generator/generate.py#L163-L270",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "src/exo/worker/engines/mlx/generator/generate.py",
+      "sha256": "0094ea9f2e837cb7d59b9f0dabc7fe727c17bbdbe103c1798a2034744d13b349",
+      "lines": [
+        163,
+        270
+      ]
+    },
+    {
+      "id": "exo-source-21",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/src/exo/worker/engines/mlx/auto_parallel.py#L628-L649",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "src/exo/worker/engines/mlx/auto_parallel.py",
+      "sha256": "f854d7dbcfd79c03725ddb19c215d95884362fb40b00d96c75bcfae58683cce1",
+      "lines": [
+        628,
+        649
+      ]
+    },
+    {
+      "id": "exo-source-22",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/src/exo/worker/engines/mlx/auto_parallel.py#L755-L940",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "src/exo/worker/engines/mlx/auto_parallel.py",
+      "sha256": "f854d7dbcfd79c03725ddb19c215d95884362fb40b00d96c75bcfae58683cce1",
+      "lines": [
+        755,
+        940
+      ]
+    },
+    {
+      "id": "exo-source-23",
+      "url": "https://ml-explore.github.io/mlx/build/html/usage/distributed.html",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "documented"
+    },
+    {
+      "id": "exo-source-24",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/src/exo/master/placement_utils.py#L296-L325",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "src/exo/master/placement_utils.py",
+      "sha256": "b238de4e01016fa52f7e441f0817642b0fef1bc34b0ca42ee0eb5a94ffd48fba",
+      "lines": [
+        296,
+        325
+      ]
+    },
+    {
+      "id": "exo-source-25",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/src/exo/shared/constants.py#L110",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "src/exo/shared/constants.py",
+      "sha256": "2c332cb48e702dc7bdf72a2b1003841bd9108e77b507eecae42f2ef25bb6b05d",
+      "lines": [
+        110
+      ]
+    },
+    {
+      "id": "exo-source-26",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/src/exo/master/main.py#L134-L173",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "src/exo/master/main.py",
+      "sha256": "d5d02067cdbcc699f26c734c40b912fb0a450818137f28c4163111fb7a21c9f8",
+      "lines": [
+        134,
+        173
+      ]
+    },
+    {
+      "id": "exo-source-27",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/src/exo/api/main.py#L751-L794",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "src/exo/api/main.py",
+      "sha256": "1947cbaa1c25ba48d12a0315a411e376e1071a36630d27e5b93391a544509a14",
+      "lines": [
+        751,
+        794
+      ]
+    },
+    {
+      "id": "exo-source-28",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/src/exo/worker/runner/llm_inference/batch_generator.py#L303-L317",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "src/exo/worker/runner/llm_inference/batch_generator.py",
+      "sha256": "53553dcfd95a7a8c733ef0eb3113d49531ab9d462963930f2daa79b6caf00e30",
+      "lines": [
+        303,
+        317
+      ]
+    },
+    {
+      "id": "exo-source-29",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/src/exo/worker/engines/mlx/disaggregated/adapter.py#L64-L156",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "src/exo/worker/engines/mlx/disaggregated/adapter.py",
+      "sha256": "b99da3f0207ed2a945a5394eaf8c6ec0787367f5ffe66ef8eabb4610558aa3af",
+      "lines": [
+        64,
+        156
+      ]
+    },
+    {
+      "id": "exo-source-30",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/src/exo/worker/engines/mlx/disaggregated/client.py#L49-L110",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "src/exo/worker/engines/mlx/disaggregated/client.py",
+      "sha256": "3282b08f36bc55cb41093e83d26f538dcbe65d677a732e6a156fa3e1acb4f99b",
+      "lines": [
+        49,
+        110
+      ]
+    },
+    {
+      "id": "exo-source-31",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/docs/benchmarks/jeffgeerling/mac-studio-cluster-ai-full-1-qwen3-235b.jpeg",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "docs/benchmarks/jeffgeerling/mac-studio-cluster-ai-full-1-qwen3-235b.jpeg",
+      "sha256": "71d647bdc70c7f2adaa89443b497eb6a185c730a50041f6a8aba83f784ed039e"
+    },
+    {
+      "id": "exo-source-32",
+      "url": "https://www.jeffgeerling.com/blog/2025/15-tb-vram-on-mac-studio-rdma-over-thunderbolt-5/",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "documented"
+    },
+    {
+      "id": "exo-source-33",
+      "url": "https://github.com/ml-explore/mlx/pull/2808",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "documented"
+    },
+    {
+      "id": "exo-source-34",
+      "url": "https://blog.exolabs.net/nvidia-dgx-spark/",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "documented"
+    },
+    {
+      "id": "exo-source-35",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/bench/METHODOLOGY.md",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "bench/METHODOLOGY.md",
+      "sha256": "8c265f18049dc9aa22c230bd0f8051d16566e2825ccdf539fdb0daea7c327a1c"
+    },
+    {
+      "id": "exo-source-36",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/bench/exo_bench.py#L827-L855",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "bench/exo_bench.py",
+      "sha256": "9687afe7083bfe7c5c0ac344942b7dae3ebb93fc646e262b2ed6109ae95ac0a1",
+      "lines": [
+        827,
+        855
+      ]
+    },
+    {
+      "id": "exo-source-37",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/src/exo/worker/runner/bootstrap.py#L48-L85",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "static",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "src/exo/worker/runner/bootstrap.py",
+      "sha256": "8d16630a130b4e5033746001309da59776f080b2277b2a262ee6c3f22e52a654",
+      "lines": [
+        48,
+        85
+      ]
+    },
+    {
+      "id": "exo-source-38",
+      "url": "https://ml-explore.github.io/mlx/build/html/usage/distributed.html#getting-started-with-jaccl",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "documented"
+    },
+    {
+      "id": "exo-source-39",
+      "url": "https://github.com/jundot/omlx/blob/85d299585d95129a525b10ce683937bd88a02f50/docs/Splash.md",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "documented",
+      "repository": "jundot/omlx",
+      "commit": "85d299585d95129a525b10ce683937bd88a02f50",
+      "path": "docs/Splash.md",
+      "retrieval": "GitHub connector pinned blob; latest commit obtained through GitHub REST"
+    },
+    {
+      "id": "exo-source-40",
+      "url": "https://arxiv.org/abs/2312.08361",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "documented"
+    },
+    {
+      "id": "exo-source-41",
+      "url": "https://arxiv.org/abs/2406.01566",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "documented"
+    },
+    {
+      "id": "exo-source-42",
+      "url": "https://www.usenix.org/conference/osdi24/presentation/zhong-yinmin",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "documented"
+    },
+    {
+      "id": "exo-source-43",
+      "url": "https://arxiv.org/abs/2311.18677",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "documented"
+    },
+    {
+      "id": "exo-source-44",
+      "url": "https://github.com/exo-explore/exo/blob/bc412e2230f395e652c23426a5eb88dfa515769b/README.md#L20-L67",
+      "accessed_date": "2026-10-20",
+      "evidence_type": "documented",
+      "repository": "exo-explore/exo",
+      "commit": "bc412e2230f395e652c23426a5eb88dfa515769b",
+      "path": "README.md",
+      "sha256": "176868021ebcf900b1397d5cb8d4ae94d5c196fbeae094bc5b57673a3586f09e",
+      "lines": [
+        20,
+        67
+      ]
+    }
+  ]
+}

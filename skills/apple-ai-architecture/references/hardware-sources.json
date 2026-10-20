@@ -1,0 +1,215 @@
+{
+  "schema": "apple-native-ai-study/hardware-sources/v1",
+  "study_date": "2026-10-19",
+  "timezone": "America/Chicago",
+  "scope": "Public Apple M5 Max/M5 Ultra and Metal architecture; no user-specific system state",
+  "evidence_types": [
+    "official-public-documentation",
+    "official-product-specification",
+    "explicit-analytical-derivation"
+  ],
+  "m5_ultra_publicly_documented": true,
+  "specifications": {
+    "source": "https://www.apple.com/mac-studio/specs/",
+    "variants": [
+      {
+        "chip": "M5 Max",
+        "cpu_cores": 18,
+        "gpu_cores": 32,
+        "neural_engine_cores": 16,
+        "memory_bandwidth_GB_per_s": 460
+      },
+      {
+        "chip": "M5 Max",
+        "cpu_cores": 18,
+        "gpu_cores": 40,
+        "neural_engine_cores": 16,
+        "memory_bandwidth_GB_per_s": 614
+      },
+      {
+        "chip": "M5 Ultra",
+        "cpu_cores": 30,
+        "gpu_cores": 64,
+        "neural_engine_cores": 32,
+        "memory_bandwidth_TB_per_s": 1.2
+      },
+      {
+        "chip": "M5 Ultra",
+        "cpu_cores": 36,
+        "gpu_cores": 80,
+        "neural_engine_cores": 32,
+        "memory_bandwidth_TB_per_s": 1.2
+      }
+    ],
+    "bandwidth_semantics": "Manufacturer-published specification; not measured application throughput"
+  },
+  "sources": [
+    {
+      "id": "studio-specs",
+      "url": "https://www.apple.com/mac-studio/specs/",
+      "supports": "Variant core counts and bandwidth"
+    },
+    {
+      "id": "ultra-announcement",
+      "url": "https://www.apple.com/ca/newsroom/2026/08/apple-introduces-new-mac-studio-with-m5-max-and-m5-ultra/",
+      "published": "2026-08-25",
+      "supports": "Official M5 Ultra product identity and GPU Neural Accelerators"
+    },
+    {
+      "id": "max-announcement",
+      "url": "https://www.apple.com/newsroom/2026/03/apple-debuts-m5-pro-and-m5-max-to-supercharge-the-most-demanding-pro-workflows/",
+      "published": "2026-03-03",
+      "supports": "M5 Pro/Max two-die Fusion Architecture; does not establish M5 Ultra interconnect"
+    },
+    {
+      "id": "storage",
+      "url": "https://developer.apple.com/documentation/metal/choosing-a-resource-storage-mode-for-apple-gpus",
+      "supports": "Shared/private system memory and temporary memoryless textures",
+      "access": "Official Markdown alternate read in preceding architecture study"
+    },
+    {
+      "id": "mlx-unified",
+      "url": "https://ml-explore.github.io/mlx/build/html/usage/unified_memory.html",
+      "supports": "Unified arrays and per-operation CPU/GPU selection"
+    },
+    {
+      "id": "coreml",
+      "url": "https://developer.apple.com/documentation/CoreML",
+      "supports": "Distinct CPU/GPU/Neural Engine compute devices"
+    },
+    {
+      "id": "m5-ml",
+      "url": "https://developer.apple.com/videos/play/tech-talks/111432/",
+      "supports": "GPU-local neural accelerators, tensor APIs, prefill/decode distinction",
+      "access": "Official transcript"
+    },
+    {
+      "id": "m5-caching",
+      "url": "https://developer.apple.com/videos/play/tech-talks/111431/",
+      "supports": "Dynamic caching, register pressure, occupancy and cache thrashing",
+      "access": "Official transcript"
+    },
+    {
+      "id": "shader-performance",
+      "url": "https://developer.apple.com/videos/play/tech-talks/111373/?time=409",
+      "supports": "Address spaces and hardware-cache versus threadgroup staging tradeoffs"
+    },
+    {
+      "id": "compute-passes",
+      "url": "https://developer.apple.com/documentation/metal/compute-passes",
+      "supports": "Tile-memory roles in compute passes"
+    },
+    {
+      "id": "imageblocks",
+      "url": "https://developer.apple.com/documentation/metal/mtlcomputecommandencoder/setimageblockwidth(_:height:)",
+      "supports": "Imageblock and threadgroup allocation share bounded tile memory"
+    },
+    {
+      "id": "groups",
+      "url": "https://developer.apple.com/documentation/metal/creating-threads-and-threadgroups",
+      "supports": "Grid/threadgroup/SIMD hierarchy, divergence and threadExecutionWidth"
+    },
+    {
+      "id": "gpu-example",
+      "url": "https://developer.apple.com/documentation/metal/performing-calculations-on-a-gpu",
+      "supports": "Group distribution and pipeline-dependent group limit"
+    },
+    {
+      "id": "sync",
+      "url": "https://developer.apple.com/documentation/metal/resource-synchronization",
+      "supports": "Dependencies and Metal 4 hazardTrackingMode distinction",
+      "access": "Official Markdown alternate read in preceding architecture study"
+    },
+    {
+      "id": "shader-sync",
+      "url": "https://developer.apple.com/documentation/apple-silicon/porting-your-metal-code-to-apple-silicon",
+      "supports": "Shader barriers and memory ordering"
+    },
+    {
+      "id": "inline-tensors",
+      "url": "https://developer.apple.com/documentation/metal/running-inline-ml-operations-in-a-shader-with-metal-4",
+      "supports": "Tensor slicing, cooperative results and fused activation",
+      "access": "Official Markdown alternate"
+    },
+    {
+      "id": "mpp-guide",
+      "url": "https://developer.apple.com/download/files/Metal-Performance-Primitives-Programming-Guide.pdf",
+      "version": "1",
+      "document_date": "2026-03-16",
+      "sections": [
+        "2",
+        "3",
+        "4.1"
+      ],
+      "supports": "Tile/cache/reuse tradeoffs and roofline assumptions",
+      "access": "PDF text; 13 pages"
+    },
+    {
+      "id": "tensor-wwdc26",
+      "url": "https://developer.apple.com/videos/play/wwdc2026/330/",
+      "supports": "Quantized tensor path and fused attention using cooperative tensors"
+    },
+    {
+      "id": "compute-policy",
+      "url": "https://developer.apple.com/documentation/coreml/mlcomputeunits?changes=l_3",
+      "supports": "Permitted compute device sets; all lets OS select"
+    },
+    {
+      "id": "gpu-timeline",
+      "url": "https://developer.apple.com/documentation/metal/running-a-machine-learning-model-on-the-gpu-timeline",
+      "supports": "GPU machine-learning passes and subsequent GPU consumers",
+      "access": "Official Markdown alternate"
+    },
+    {
+      "id": "video-textures",
+      "url": "https://developer.apple.com/documentation/corevideo/cvmetaltexturecachecreatetexturefromimage(_:_:_:_:_:_:_:_:_:)",
+      "supports": "Mapped image-buffer textures, formats and lifetime",
+      "access": "Official Markdown alternate read in preceding architecture study"
+    },
+    {
+      "id": "producer-consumer",
+      "url": "https://developer.apple.com/documentation/metal/synchronizing-cpu-and-gpu-work",
+      "supports": "Dependency ordering and overlapping independent producer/consumer work",
+      "access": "Official Markdown alternate read in preceding architecture study"
+    }
+  ],
+  "analytical_examples": {
+    "multiply_add_operation_count": 2,
+    "square_fp16_gemm_side": 4096,
+    "square_fp16_ideal_ops_per_byte": 1365.3333333333333,
+    "illustrative_stream_bytes_decimal_GB": 10,
+    "transfer_floor_ms_at_614_GB_per_s": 16.286644951140065,
+    "transfer_floor_ms_at_1_2_TB_per_s": 8.333333333333334,
+    "bandwidth_ratio_1200_over_614": 1.9543973941368078,
+    "amdahl_example_parallel_fraction": 0.8,
+    "amdahl_example_stage_speedup": 1.95,
+    "amdahl_example_whole_task_speedup": 1.638655462184874,
+    "status": "Derived illustrative bounds and examples; not benchmark results"
+  },
+  "uncertainties": [
+    "Reviewed M5 Ultra official sources do not state die-interconnect bandwidth or latency, cache topology, or cross-die access cost.",
+    "No older Ultra interconnect specification is carried forward or synthesized by multiplying Max specifications.",
+    "Detailed throughput for a precision/shape/kernel is not established by product core counts or peak bandwidth.",
+    "Hardware capability and documented APIs do not establish any particular inference engine's kernel selection or model compatibility."
+  ],
+  "bounded_searches": [
+    "site:apple.com M5 Ultra UltraFusion",
+    "site:apple.com M5 Ultra interconnect",
+    "site:developer.apple.com M5 Ultra Fusion",
+    "Reviewed current Mac Studio specifications and August 2026 official M5 Ultra announcement"
+  ],
+  "access_limitations": [
+    "Full Metal Shading Language PDF exceeded web extraction size; no claim depends on an unread passage from it.",
+    "Public pages can change; recorded source URLs and study date identify the evidence boundary."
+  ],
+  "out_of_scope": [
+    "User hardware inventory",
+    "Installed application versions",
+    "Loaded models",
+    "User-specific memory capacity",
+    "App paths",
+    "Diagnostics",
+    "Benchmarks",
+    "Configuration changes"
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Apple AI Architecture"
+  short_description: "Study and design AI for Apple Silicon"
+  default_prompt: "Use $apple-ai-architecture to explain the performance mechanism and design an evidence-backed Apple-native AI experiment."

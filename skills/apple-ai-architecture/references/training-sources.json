@@ -1,0 +1,223 @@
+{
+  "schema": "apple-native-ai-training-study/v1",
+  "review_date": "2026-10-19",
+  "timezone": "America/Chicago",
+  "scope": "General model/training/runtime co-design; no machine-specific diagnosis or setup.",
+  "sources": [
+    {
+      "id": "mlx-framework",
+      "title": "MLX framework design",
+      "url": "https://github.com/ml-explore/mlx/blob/f41bec734ac9fc96723ab7d4e64e385796f15561/README.md",
+      "evidence_type": "official-source",
+      "used_for": "Shared memory, autodiff, lazy evaluation, CPU/GPU devices; distinguishes runtime from model architecture."
+    },
+    {
+      "id": "mlx-lm",
+      "title": "MLX-LM README",
+      "url": "https://github.com/ml-explore/mlx-lm/blob/c39139d70f0798834fc721c28a1aa8e1374ea33c/README.md",
+      "evidence_type": "official-source",
+      "used_for": "Language model generation, conversion, quantization and fine-tuning on MLX."
+    },
+    {
+      "id": "mlx-lm-learned-quants",
+      "title": "MLX-LM learned quantization",
+      "url": "https://github.com/ml-explore/mlx-lm/blob/c39139d70f0798834fc721c28a1aa8e1374ea33c/mlx_lm/LEARNED_QUANTS.md",
+      "evidence_type": "official-source",
+      "used_for": "AWQ, GPTQ, dynamic precision and DWQ are documented; does not establish arbitrary QAT capability."
+    },
+    {
+      "id": "mlx-lm-dwq",
+      "title": "MLX-LM DWQ implementation",
+      "url": "https://github.com/ml-explore/mlx-lm/blob/c39139d70f0798834fc721c28a1aa8e1374ea33c/mlx_lm/quant/dwq.py#L68",
+      "evidence_type": "official-source",
+      "used_for": "Eligible affine modules below 8 bits unfreeze scales/biases; KL teacher loss; cached teacher-target path inspected. No execution."
+    },
+    {
+      "id": "mlx-lm-lora",
+      "title": "MLX-LM fine-tuning",
+      "url": "https://github.com/ml-explore/mlx-lm/blob/c39139d70f0798834fc721c28a1aa8e1374ea33c/mlx_lm/LORA.md",
+      "evidence_type": "official-source",
+      "used_for": "LoRA, DoRA and full fine-tuning, quantized-base LoRA, gradient-checkpointing tradeoff."
+    },
+    {
+      "id": "mlx-lm-lora-code",
+      "title": "MLX-LM LoRA operations",
+      "url": "https://github.com/ml-explore/mlx-lm/blob/c39139d70f0798834fc721c28a1aa8e1374ea33c/mlx_lm/tuner/lora.py#L11",
+      "evidence_type": "official-source",
+      "used_for": "Adapter forward adds low-rank products; fusion updates original matrix shape."
+    },
+    {
+      "id": "mlx-qmm",
+      "title": "MLX quantized_matmul API",
+      "url": "https://ml-explore.github.io/mlx/build/html/python/_autosummary/mlx.core.quantized_matmul.html",
+      "evidence_type": "official-documentation",
+      "used_for": "Runtime quantization contract; supported layout/mode/group shape must be checked, not inferred from nominal bits."
+    },
+    {
+      "id": "omlx-routing",
+      "title": "oMLX engine routing",
+      "url": "https://github.com/jundot/omlx/blob/c4605a2dcdf03bf8cb58594d34fb2b0089e60304/omlx/engine_pool.py#L2084",
+      "evidence_type": "official-source",
+      "used_for": "Serving application selects native engines or external Splash; no implication of general training support."
+    },
+    {
+      "id": "omlx-hybrid-cache",
+      "title": "oMLX hybrid cache handling",
+      "url": "https://github.com/jundot/omlx/blob/c4605a2dcdf03bf8cb58594d34fb2b0089e60304/omlx/cache/prefix_cache.py#L66",
+      "evidence_type": "official-source",
+      "used_for": "Boundary and sliceable state require different restoration; static source evidence only."
+    },
+    {
+      "id": "apple-2025-models",
+      "title": "Updates to Apple’s On-Device and Server Foundation Language Models",
+      "url": "https://machinelearning.apple.com/research/apple-foundation-models-2025-updates",
+      "evidence_type": "author-research-overview",
+      "used_for": "Published architecture/deployment examples: QAT, cross-layer KV sharing, PT-MoE, ASTC; not treated as public MLX conversion features."
+    },
+    {
+      "id": "apple-qat",
+      "title": "Compute-Optimal Quantization-Aware Training",
+      "url": "https://arxiv.org/html/2509.22935v2",
+      "evidence_type": "author-paper",
+      "used_for": "QAT/FP compute allocation; 86M–2.2B empirical range; no universal percentage extrapolated."
+    },
+    {
+      "id": "lora-paper",
+      "title": "LoRA: Low-Rank Adaptation of Large Language Models",
+      "url": "https://arxiv.org/abs/2106.09685",
+      "evidence_type": "author-paper",
+      "used_for": "Parameter-efficient adaptation and merged update rationale; not structural pruning."
+    },
+    {
+      "id": "minitron",
+      "title": "LLM Pruning and Distillation in Practice: The Minitron Approach",
+      "url": "https://arxiv.org/abs/2408.11796",
+      "evidence_type": "author-paper",
+      "used_for": "Width/depth pruning with distillation; not Apple runtime performance evidence."
+    },
+    {
+      "id": "apple-compression",
+      "title": "Compressing LLMs: The Truth is Rarely Pure and Never Simple",
+      "url": "https://machinelearning.apple.com/research/compressing-llms",
+      "evidence_type": "author-research-summary",
+      "used_for": "Task-dependent compression degradation; motivates tests beyond perplexity."
+    },
+    {
+      "id": "mixtral",
+      "title": "Mixtral of Experts",
+      "url": "https://arxiv.org/abs/2401.04088",
+      "evidence_type": "author-paper",
+      "used_for": "Distinguishes approximately 47B total and 13B active parameters; not storage equivalent to dense 13B."
+    },
+    {
+      "id": "gqa",
+      "title": "GQA: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints",
+      "url": "https://arxiv.org/abs/2305.13245",
+      "evidence_type": "author-paper",
+      "used_for": "Checkpoint conversion plus uptraining; reported 5% original pretraining compute is recipe-specific."
+    },
+    {
+      "id": "mamba",
+      "title": "Mamba: Linear-Time Sequence Modeling with Selective State Spaces",
+      "url": "https://arxiv.org/abs/2312.00752",
+      "evidence_type": "author-paper",
+      "used_for": "Recurrent selective state and hardware-aware execution; reported speedups not transferred."
+    },
+    {
+      "id": "mamba2",
+      "title": "Transformers are SSMs: Generalized Models and Efficient Algorithms Through Structured State Space Duality",
+      "url": "https://arxiv.org/abs/2405.21060",
+      "evidence_type": "author-paper",
+      "used_for": "Architecture/algorithm co-design; no Apple throughput claim."
+    },
+    {
+      "id": "mamba-in-llama",
+      "title": "The Mamba in the Llama: Distilling and Accelerating Hybrid Models",
+      "url": "https://arxiv.org/abs/2408.15237",
+      "evidence_type": "author-paper",
+      "used_for": "Existing transformer conversion with projection reuse and distillation; no generic drop-in support claimed."
+    },
+    {
+      "id": "speculative",
+      "title": "Fast Inference from Transformers via Speculative Decoding",
+      "url": "https://proceedings.mlr.press/v202/leviathan23a.html",
+      "evidence_type": "peer-reviewed-author-paper",
+      "used_for": "Exact speculative sampling preserves target distribution under its algorithm; not universal to all multi-token systems."
+    },
+    {
+      "id": "mtp",
+      "title": "Better & Faster Large Language Models via Multi-token Prediction",
+      "url": "https://arxiv.org/abs/2404.19737",
+      "evidence_type": "author-paper",
+      "used_for": "Auxiliary future-token prediction heads/objectives; inference needs a compatible exploitation/verification path."
+    },
+    {
+      "id": "tokenization",
+      "title": "Tokenization Is More Than Compression",
+      "url": "https://arxiv.org/abs/2402.18376",
+      "evidence_type": "author-paper",
+      "used_for": "Tokenizer choices affect model quality beyond compression alone."
+    },
+    {
+      "id": "hardware-search",
+      "title": "LLMForge: Multi-Backend Hardware-Aware Neural Architecture Search with Infinite-Head Attention for Edge Language Models",
+      "url": "https://arxiv.org/abs/2605.17653",
+      "evidence_type": "author-preprint",
+      "used_for": "Hardware-conditioned search and surrogate costs; not an Apple-specific validation or adopted implementation."
+    }
+  ],
+  "source_pins": {
+    "mlx": "f41bec734ac9fc96723ab7d4e64e385796f15561",
+    "mlx_lm": "c39139d70f0798834fc721c28a1aa8e1374ea33c",
+    "omlx": "c4605a2dcdf03bf8cb58594d34fb2b0089e60304"
+  },
+  "mlx_lm_inspected_files": [
+    {
+      "path": "README.md",
+      "sha256": "fc4dc67d70ca364ef8c2f94e84d170072d3c5f4fdfd2aa7a7be7a38a6b3d0008"
+    },
+    {
+      "path": "mlx_lm/LEARNED_QUANTS.md",
+      "sha256": "afcf011dc7eaa338160969e039bc5426305af34ff8a489cb029cb4b269847fee"
+    },
+    {
+      "path": "mlx_lm/quant/dwq.py",
+      "sha256": "b69285f0f86f1fc9c8151bb31a0cd926df8959dda7f315790680adb64b8f6b84"
+    },
+    {
+      "path": "mlx_lm/LORA.md",
+      "sha256": "305fec69ccbde4c5b8f2c752ab889258bfa7192f2ec7e2b767ad641c57021852"
+    },
+    {
+      "path": "mlx_lm/tuner/lora.py",
+      "sha256": "4d3a8edab111d4ddba33398ba8700203db7b61621c39e9c348fdd50e57278b45"
+    }
+  ],
+  "derived_calculations": {
+    "kv_formula": "2 * batch * sequence_length * attention_layers * kv_heads * head_dim * bytes_per_value",
+    "assumptions": "Uncompressed equal-dimensional key/value tensors, all listed layers full attention; excludes padding/metadata/other memory.",
+    "example": {
+      "batch": 1,
+      "sequence_length": 32768,
+      "attention_layers": 32,
+      "head_dim": 128,
+      "bytes_per_value": 2,
+      "kv_bytes_by_heads": {
+        "32": 17179869184,
+        "8": 4294967296,
+        "1": 536870912
+      }
+    },
+    "cost_objective": "Proposed normalized loss+latency+energy objective with hard memory and quality constraints; not a sourced or implemented MLX-LM feature.",
+    "break_even": "Training/validation cost divided by positive per-inference savings; illustrative accounting only."
+  },
+  "validation": {
+    "training": "not run",
+    "inference": "not run",
+    "benchmark": "not run",
+    "installation": "none",
+    "hardware_read": "none in this study",
+    "source_inspection": "Selected methods, not exhaustive repository audit",
+    "paper_scope": "Published mechanisms and stated author results; no independent reproduction"
+  }
+}
